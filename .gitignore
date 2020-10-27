@@ -23,6 +23,7 @@ tmp
 .tmp
 manifest
 activate.sh
+Vagrantfile
 *keys.sh
 .Trash*
 *.zip
