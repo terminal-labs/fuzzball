@@ -1,4 +1,4 @@
-class DriverShell:
+class DriverSaltlocal:
 
    def __init__(self):
      self.opts = {}

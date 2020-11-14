@@ -18,6 +18,15 @@ version = '0.0.1'
 
 context_settings = {"help_option_names": ["-h", "--help"]}
 
+def file_read(path):
+    assert isinstance(path, str) is True
+    path = os.path.abspath(path)
+    file_obj = open(path, "rb")
+    data = file_obj.read()
+    file_obj.close()
+    return data
+
+
 def dir_create(path):
     assert isinstance(path, str) is True
     path = os.path.abspath(path)
@@ -47,9 +56,34 @@ def get_dict_from_ymlfile(path):
 
 
 def renderstates():
+    def _getname(line):
+        return line.split(b" ")[-1].replace(b'"',b"")
+
     dir_exists(".tmp/rendering")
     dir_create(".tmp/rendering/jinja")
     dir_create(".tmp/rendering/yaml")
+    content = file_read("z_tops/hypertop.fbt")
+    lines = content.split(b"\n")
+
+    names = []
+
+    chunk = ""
+    inblack = False
+    for line in lines:
+        if line.startswith(b"!! block"):
+            inblack = True
+            names.append(_getname(line))
+            print("########")
+        elif line.startswith(b"!! endblock"):
+            inblack = False
+        else:
+            if not line.startswith(b"!! file"):
+                print(line.decode("utf-8"))
+            else:
+                print("########")
+                names.append(_getname(line))
+                print(line.decode("utf-8"))
+    print(names)
 
 
 @click.group(context_settings=context_settings)
@@ -63,8 +97,8 @@ def cli(ctx):
 def version_up():
     print("up")
     init()
-    config = get_dict_from_ymlfile("z_fussball.yml")
-    artifacts = get_dict_from_ymlfile("z_artifacts/get.yml")
+    config = get_dict_from_ymlfile("z_fussball.fbc")
+    artifacts = get_dict_from_ymlfile("z_artifacts/get.fbc")
     get_artifacts(artifacts["required"])
     renderstates()
 
