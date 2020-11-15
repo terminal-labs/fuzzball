@@ -48,7 +48,7 @@ def dir_exists(path):
 
 
 def init():
-    dir_exists(".tmp")
+    dir_create(".tmp")
 
 
 def download_artifacts(rec_artifacts):
@@ -62,6 +62,14 @@ def get_dict_from_fbcfile(path):
     stream = open(path, 'r')
     dict = yaml.load(stream, Loader=yaml.SafeLoader)
     return dict
+
+
+def emit_files(names, contents):
+    files = list(zip(names, contents))
+    for file in files:
+        f = open(".tmp/rendering/jinja" + "/" + file[0] + ".jinja", "w")
+        f.write(file[1])
+        f.close()
 
 
 def renderstates():
@@ -118,7 +126,7 @@ def renderstates():
     parse = parse.split(splitter)
     parse.remove("")
 
-    return (parse, names)
+    return (names, parse)
 
 
 @click.group(context_settings=context_settings)
@@ -135,7 +143,7 @@ def version_up():
     artifacts = get_dict_from_fbcfile(arti)
     download_artifacts(artifacts["required"])
     chunks = renderstates()
-    print(chunks)
+    emit_files(chunks[0], chunks[1])
 
 
 @cli.command(name="down")
