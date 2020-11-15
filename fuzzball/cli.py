@@ -1,5 +1,5 @@
-import yaml
 import os
+import yaml
 import json
 import base64
 import random
@@ -10,11 +10,18 @@ from shutil import copyfile, move, rmtree
 from subprocess import Popen, PIPE
 import urllib.request
 
-
 import click
 
 PROJECT_NAME = "fuzzball"
 version = '0.0.1'
+
+tmp_rendering = ".tmp/rendering"
+tmp_artifacts = ".tmp/artifacts"
+tmp_jinja = ".tmp/rendering/jinja"
+tmp_yaml = ".tmp/rendering/yaml"
+conf = "z_fussball.fbc"
+arti = "z_artifacts/get.fbc"
+conf_hypertop = "z_tops/hypertop.fbt"
 
 context_settings = {"help_option_names": ["-h", "--help"]}
 
@@ -39,51 +46,79 @@ def dir_exists(path):
     path = os.path.abspath(path)
     return os.path.isdir(path)
 
+
 def init():
     dir_exists(".tmp")
-    dir_create(".tmp/artifacts")
 
 
-def get_artifacts(rec_artifacts):
-    for file in rec_artifacts:
-        urllib.request.urlretrieve(file, ".tmp/artifacts/" + file.split("/")[-1])
+def download_artifacts(rec_artifacts):
+    if not dir_exists(tmp_artifacts):
+        dir_create(tmp_artifacts)
+        for file in rec_artifacts:
+            urllib.request.urlretrieve(file, tmp_artifacts + "/" + file.split("/")[-1])
 
 
-def get_dict_from_ymlfile(path):
+def get_dict_from_fbcfile(path):
     stream = open(path, 'r')
     dict = yaml.load(stream, Loader=yaml.SafeLoader)
     return dict
 
 
 def renderstates():
-    def _getname(line):
-        return line.split(b" ")[-1].replace(b'"',b"")
+    splitter = "########\n"
+    tag_block = "!! block"
+    tag_endblock = "!! endblock"
+    tag_end = "!! file"
+    tag_endend = "!! endfile"
 
-    dir_exists(".tmp/rendering")
+    def _getname(line):
+        return line.split(' ')[-1].replace('"','').strip()
+
+    def _tostr(line):
+        return line.decode("utf-8")
+
+    def _clean(line):
+        return line.replace("\r", "\n")
+
+    def _emit(data):
+        pass
+
+    dir_exists(tmp_rendering)
     dir_create(".tmp/rendering/jinja")
     dir_create(".tmp/rendering/yaml")
-    content = file_read("z_tops/hypertop.fbt")
-    lines = content.split(b"\n")
+    content = file_read(conf_hypertop)
+    content = _tostr(content)
+    lines = content.split("\n")
 
     names = []
+    parse = []
 
-    chunk = ""
     inblack = False
     for line in lines:
-        if line.startswith(b"!! block"):
+        line = _clean(line)
+        if line.startswith(tag_block):
             inblack = True
             names.append(_getname(line))
-            print("########")
-        elif line.startswith(b"!! endblock"):
+            _emit(splitter)
+            parse.append(splitter)
+        elif line.startswith(tag_endblock):
             inblack = False
         else:
-            if not line.startswith(b"!! file"):
-                print(line.decode("utf-8"))
+            if not line.startswith(tag_end):
+                _emit(line)
+                parse.append(line)
             else:
-                print("########")
+                _emit(splitter)
+                parse.append(splitter)
                 names.append(_getname(line))
-                print(line.decode("utf-8"))
-    print(names)
+                _emit(line)
+                parse.append(line)
+
+    parse = ''.join(parse)
+    parse = parse.split(splitter)
+    parse.remove("")
+
+    return (parse, names)
 
 
 @click.group(context_settings=context_settings)
@@ -95,12 +130,12 @@ def cli(ctx):
 
 @cli.command(name="up")
 def version_up():
-    print("up")
     init()
-    config = get_dict_from_ymlfile("z_fussball.fbc")
-    artifacts = get_dict_from_ymlfile("z_artifacts/get.fbc")
-    get_artifacts(artifacts["required"])
-    renderstates()
+    config = get_dict_from_fbcfile(conf)
+    artifacts = get_dict_from_fbcfile(arti)
+    download_artifacts(artifacts["required"])
+    chunks = renderstates()
+    print(chunks)
 
 
 @cli.command(name="down")
