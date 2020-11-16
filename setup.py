@@ -15,7 +15,7 @@ setup(
     "setuptools",
     "standardmodel@git+https://github.com/terminal-labs/standardmodel.git",
     "rambo-vagrant@git+https://github.com/terminal-labs/rambo.git",    
-    "inflation@git+://github.com/terminal-labs/inflation.git",
+    "inflation@git+https://github.com/terminal-labs/inflation.git",
   ],
   classifiers=[  # Optional
     'Development Status :: 3 - Alpha',
