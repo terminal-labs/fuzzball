@@ -13,8 +13,7 @@ setup(
   download_url = 'https://github.com/terminal-labs/fuzzball/archive/master.zip',
   install_requires=pins + [
     "setuptools",
-    "standardmodel@git+https://github.com/terminal-labs/standardmodel.git",
-    "rambo-vagrant@git+https://github.com/terminal-labs/rambo.git",    
+    "standardmodel@git+https://github.com/terminal-labs/standardmodel.git",   
     "inflation@git+https://github.com/terminal-labs/inflation.git",
   ],
   classifiers=[  # Optional
