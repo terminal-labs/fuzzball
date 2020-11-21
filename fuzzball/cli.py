@@ -19,8 +19,8 @@ tmp_rendering = ".tmp/rendering"
 tmp_artifacts = ".tmp/artifacts"
 tmp_jinja = ".tmp/rendering/jinja"
 tmp_yaml = ".tmp/rendering/yaml"
-conf = "z_fussball.fbc"
-arti = "z_artifacts/get.fbc"
+conf = "z_fussball.conf"
+arti = "z_artifacts/_meta/get.yml"
 conf_hypertop = "z_tops/hypertop.fbt"
 
 context_settings = {"help_option_names": ["-h", "--help"]}
