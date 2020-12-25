@@ -1,6 +1,3 @@
-mkdir -p /home/circleci
-chmod 777 -R /home/circleci
-
 useradd -m vagrant
 mkdir -p /home/vagrant
 touch /home/vagrant/.bashrc
