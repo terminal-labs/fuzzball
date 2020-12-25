@@ -15,6 +15,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run bash-environment-manager      
       run: |
-        sudo bash .repo/mock_vagrant.sh;
-        sudo bash .repo/download_bash_environment_manager.sh;
-        cd /vagrant; sudo su vagrant -c "sudo make onguest";
+        sudo bash .repo/mock_vagrant.sh
+        sudo bash .repo/download_bash_environment_manager.sh
+        sudo make onguest
