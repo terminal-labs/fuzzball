@@ -18,6 +18,4 @@ jobs:
         sudo bash .repo/mock_vagrant.sh
         sudo bash .repo/download_bash_environment_manager.sh
         cd /vagrant
-        ls
-        sudo make onguest
-        echo "####################"
+        sudo make conda
