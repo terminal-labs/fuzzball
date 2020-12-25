@@ -19,4 +19,5 @@ jobs:
         sudo bash .repo/download_bash_environment_manager.sh
         cd /vagrant
         ls
+        sudo make onguest
         echo "####################"
