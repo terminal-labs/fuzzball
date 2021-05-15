@@ -10,6 +10,8 @@ from shutil import copyfile, move, rmtree
 from subprocess import Popen, PIPE
 import urllib.request
 
+from fuzzball.framework import settings
+
 import click
 
 PROJECT_NAME = "fuzzball"

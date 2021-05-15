@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 
 assert sys.version_info >= (3, 6, 0)
 
-with open(os.path.dirname(__file__) + "/src/loader.py") as f:
+with open(os.path.dirname(__file__) + "/loader.py") as f:
     code = compile(f.read(), "loader.py", "exec")
     exec(code)
 
