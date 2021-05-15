@@ -1,10 +1,8 @@
-adduser -m vagrant
-mkdir -p /home/vagrant
+adduser vagrant
 touch /home/vagrant/.bashrc
+usermod -aG sudo vagrant
 
 mkdir -p /vagrant
 cp -a . /vagrant/
 chmod 777 -R /vagrant
 chown -R vagrant /vagrant
-
-usermod -aG sudo vagrant
