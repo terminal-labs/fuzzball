@@ -7,4 +7,4 @@ cp -a . /vagrant/
 chmod 777 -R /vagrant
 chown -R vagrant /vagrant
 
-echo "vagrant ALL=\(ALL\) NOPASSWD: ALL" >> /etc/sudoers
+usermod -aG sudo vagrant
