@@ -39,11 +39,11 @@ def _get_pgk_name():
             i = -1
         i = i - 1
 
-def setup_links(package_name):
-    _link = package_link + "/"
-    Path(_path + "/" + _link).mkdir(parents=True, exist_ok=True)
-    if not os.path.islink(_path + "/" + _link + package_name):
-        os.symlink(os.path.join(_path, _src), _path + "/" + _link + "/" + package_name)
+# def setup_links(package_name):
+#     _link = package_link + "/"
+#     Path(_path + "/" + _link).mkdir(parents=True, exist_ok=True)
+#     if not os.path.islink(_path + "/" + _link + package_name):
+#         os.symlink(os.path.join(_path, _src), _path + "/" + _link + "/" + package_name)
 
 def smart_reqs(repos, package_name):
     # styles = standalone, repo
