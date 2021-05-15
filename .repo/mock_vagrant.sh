@@ -1,4 +1,4 @@
-adduser vagrant
+adduser --disabled-password --gecos "" vagrant
 touch /home/vagrant/.bashrc
 usermod -aG sudo vagrant
 
