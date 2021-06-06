@@ -6,7 +6,7 @@ from pathlib import Path
 from os.path import join, basename, abspath, isdir, isfile, dirname
 from setuptools import setup, find_packages
 
-version "0.1"
+version "0.2"
 
 assert sys.version_info >= (3, 6, 0)
 
