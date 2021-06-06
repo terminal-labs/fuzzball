@@ -6,6 +6,8 @@ from pathlib import Path
 from os.path import join, basename, abspath, isdir, isfile, dirname
 from setuptools import setup, find_packages
 
+version "0.1"
+
 assert sys.version_info >= (3, 6, 0)
 
 with open(os.path.dirname(__file__) + "/loader.py") as f:
